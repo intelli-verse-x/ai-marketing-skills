@@ -34,9 +34,11 @@ Usage:
 """
 import argparse
 import json
+import re
 import subprocess
 import sys
 import urllib.request
+from urllib.parse import urlsplit
 from pathlib import Path
 
 
@@ -49,8 +51,23 @@ def load_json(path):
     return json.loads(p.read_text())
 
 
+def safe_username(value):
+    """Keep untrusted export names inside the selected image directory."""
+    if value is None or value == "":
+        return ""
+    if not isinstance(value, str) or not re.fullmatch(r"[A-Za-z0-9._]{1,64}", value) or value in {".", ".."}:
+        raise ValueError("Invalid username in export")
+    return value.lower()
+
+
 def download_image(url, dest):
     """Fetch a profile picture, convert to JPEG, upscale small side to 320."""
+    try:
+        parsed = urlsplit(url)
+        if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
+            return False
+    except (TypeError, ValueError, AttributeError):
+        return False
     if dest.exists() and dest.stat().st_size > 1000:
         return True
     try:
@@ -68,7 +85,7 @@ def download_image(url, dest):
         raw.unlink(missing_ok=True)
         return dest.exists() and dest.stat().st_size > 1000
     except Exception as e:  # noqa: BLE001 - a failed image must not kill the build
-        print(f"image failed for {dest.name}: {e}", file=sys.stderr)
+        print(f"image failed for {dest.name}: {type(e).__name__}", file=sys.stderr)
         return False
 
 
@@ -93,7 +110,7 @@ def main():
     # Comment text per username, first comment wins.
     comment_by_user = {}
     for item in comments_apify:
-        u = (item.get("ownerUsername") or "").lower()
+        u = safe_username(item.get("ownerUsername"))
         if u and u not in comment_by_user:
             comment_by_user[u] = item.get("text") or ""
 
@@ -103,7 +120,7 @@ def main():
     for rec in profiles_cli:
         prof = rec.get("profile") or {}
         if prof.get("username"):
-            aid_to_user[rec.get("author_id")] = prof["username"].lower()
+            aid_to_user[rec.get("author_id")] = safe_username(prof["username"])
     for c in comments_cli:
         u = aid_to_user.get(c.get("author_id"))
         if u and u not in comment_by_user:
@@ -111,7 +128,7 @@ def main():
 
     states = {}
     for p in profiles_apify:
-        u = (p.get("username") or "").lower()
+        u = safe_username(p.get("username"))
         if not u:
             continue
         ext = p.get("externalUrls") or []
@@ -131,7 +148,7 @@ def main():
         }
     for rec in profiles_cli:
         p = rec.get("profile") or {}
-        u = (p.get("username") or "").lower()
+        u = safe_username(p.get("username"))
         if not u or u in states:
             continue
         states[u] = {
