@@ -10,9 +10,13 @@ These aren't prompts. They're complete workflows — scripts, scoring algorithms
 
 | Category | What It Does | Key Skills |
 |----------|-------------|------------|
+| [**ManyChat IG Lead Magnet**](./manychat-ig-lead-magnet/) | Newsletter-signup-gated resources with explicit consent, attribution and advisory lead triage | Post/Story Triggers, Beehiiv/CRM, Five-Lane Fit, S-Tier Alerts |
 | [**Growth Engine**](./growth-engine/) | Autonomous marketing experiments that run, measure, and optimize themselves | Experiment Engine, Pacing Alerts, Weekly Scorecard |
 | [**Sales Pipeline**](./sales-pipeline/) | Turn anonymous website visitors into qualified pipeline | RB2B Router, Deal Resurrector, Trigger Prospector, ICP Learner |
+| [**Event Research and Follow-up**](./event-research-follow-up/) | Research events, qualify evidence-backed leads and execute only approved follow-up | Roster and Photo Leads, Company Fit, Delivery Ledgers, Reply Outcomes |
+| [**Proactive Helpfulness**](./proactive-helpfulness/) | Prioritize useful lead follow-ups and relationship commitments with verified evidence | Cross-Channel Reconciliation, Introductions, Approval Gates, Deduplicated Funnel |
 | [**Content Ops**](./content-ops/) | Ship content that scores 90+ every time | Expert Panel, Quality Gate, Editorial Brain, Quote Miner |
+| [**Growth Signal Charts**](./growth-signal-charts/) | Turn original content and measured audience signals into cited social charts | Content Spikes, Recent Research, Desk Edition, PNG/PDF Exports |
 | [**Content OS Portable Starter**](./content-os-portable-starter/) | Bootstrap a vendor-neutral, draft-first content control loop | Config Schema, Approval Gates, Connector Matrix, Readback Templates |
 | [**Personal Strategic Signal Intelligence**](./personal-strategic-signal-intelligence/) | Turn private reading, bookmarks, notes, and applied work into source-grounded decision intelligence | Attention Drift, Decision Court, Bookmark-to-Build, Content Negative-Space |
 | [**Outbound Engine**](./outbound-engine/) | ICP definition to emails in inbox — fully automated | Cold Outbound Optimizer, Lead Pipeline, Competitive Monitor |
@@ -22,13 +26,21 @@ These aren't prompts. They're complete workflows — scripts, scoring algorithms
 | [**Conversion Ops**](./conversion-ops/) | Score any landing page and turn survey data into lead magnets | CRO Audit, Survey-to-Lead-Magnet Engine |
 | [**Podcast Ops**](./podcast-ops/) | One episode → 20+ content pieces across every platform | Podcast-to-Everything Pipeline, Content Calendar |
 | [**Team Ops**](./team-ops/) | Ruthless performance audits and meeting intelligence | Elon Algorithm, Meeting-to-Action Extractor |
+| [**Reimagine Work**](./reimagine-work/) | A weekly Elon-algorithm pass over an agent fleet plus a shadow owner judge that stops asking the founder things already answered | Shadow Judge, Weekly Loop, Escalation Ladder |
+| [**Sidebar Prioritizer**](./sidebar-prioritizer/) | Reset Codex sidebar priorities and label tasks by work category and inactivity | P0–P4 Priorities, B7 Age Markers, Follow-up Evidence, Verified Labels |
 | [**Sales Playbook**](./sales-playbook/) | Value-based pricing framework that turns $10K deals into $100K deals | Pre-Call Briefing, Tiered Packager, Call Analyzer, Pattern Library |
 | [**Autoresearch**](./autoresearch/) | Karpathy-inspired optimization loops for conversion content — 50+ variants, expert scoring, evolved winners | Variant Generator, Expert Panel Scorer, Evolution Engine |
 | [**Deck Generator**](./deck-generator/) | AI-generated slide decks with consistent visual styles in minutes | Image Generator, Google Slides Builder, Style Presets |
 | [**YT Competitive Analysis**](./yt-competitive-analysis/) | Find outlier videos and packaging patterns across any YouTube channels | Outlier Detector, Title Pattern Extractor, Channel Benchmarker |
+| [**YouTube Packaging**](./packaging-youtube-thumbnails/) | Create, render, revise, and learn from evidence-backed title-thumbnail packages | Channel Profiles, Package Scoring, Visual QA, Performance Learning |
 | [**Video Content Engine**](./video-content-engine/) | Diagnose any video and route it into the strongest justified content portfolio | Long-form Optimizer, Shorts Engine, Tutorial, Case Study, Paid Creative |
+| [**Leveling Up Content Engine**](./leveling-up-content-engine/) | Updated portable workflow for editor notes, moment selection, proof-led edits and version-bound review | Recording Review, Short-form, Packaging, Release Planning |
+| [**Video Analysis**](./video-analysis/) | Read transcripts first and inspect video silently when visuals or timing matter | Transcript Review, Demo Verification, Clip Boundaries |
+| [**Agentic Video Understanding**](./agentic-video-understanding/) | Goal-directed moment extraction from long video/audio via Gemini (cheaper than fixed-FPS ingest) | Moment Finder, Hook Hunt, Call Mining, Loom Bar Evidence |
 | [**Show-and-Tell Video Slate**](./show-and-tell-video-slate/) | Turn real builds and first-party proof into ranked 15-minute video episodes before production | Evidence Inventory, Episode Scoring, Packaging Gates, Shoot Order |
+| [**Shortform Production**](./shortform-production/) | Produce readable shorts and deliver approved clips through the API | V5 Style, Hook Previews, Editorial Review, Metricool Delivery |
 | [**Shortform Idea Grill**](./shortform-idea-grill/) | Interview, score, and rank proof-led short-form video ideas | Five-Second Hooks, Three-Second Scores, Talking Bullets, CTA Mapping |
+| [**Shortform Format Library**](./shortform-format-library/) | Maintain visual format references and match content ideas to recording outlines | Content Spikes, Creator Discovery, Freshness, Edit Briefs, Lead-Magnet Handoff |
 | [**Net-New Video Editor**](./net-new-video-editor/) | Turn fresh talking-head recordings into reversible, review-ready vertical drafts | JSON Edit Plans, FFmpeg Rendering, Captions, Hook Cards, Visual QA |
 | [**X Long-Form + Humanizer**](./x-longform-post/) | Write X articles that sound human — with a 24-pattern AI slop detector | Post Writer, Humanizer Checklist, ASCII Diagram Builder |
 
@@ -65,12 +77,21 @@ python experiment-engine.py create \
 
 ## 🧠 How These Work with Claude Code
 
-Every category includes a `SKILL.md` file. Drop it into your Claude Code project and the AI agent knows how to use the tools:
+Every category includes a `SKILL.md` file. Copy the complete skill directory when it also contains `scripts/`, `references/`, `agents/`, or other bundled files. Copying only `SKILL.md` will leave those workflows incomplete.
 
 ```
 # In your project directory
 cp ai-marketing-skills/growth-engine/SKILL.md .claude/skills/growth-engine.md
 ```
+
+For a bundled skill such as YouTube Packaging, install the full directory:
+
+```bash
+cp -R ai-marketing-skills/packaging-youtube-thumbnails \
+  .claude/skills/packaging-youtube-thumbnails
+```
+
+Other agent harnesses should import the same complete directory and use its `SKILL.md` as the entry point. OpenAI-compatible harnesses can also read `agents/openai.yaml` for display metadata and the default prompt.
 
 Then ask Claude Code: *"Run an experiment testing carousel vs. static posts on LinkedIn"* — it handles the rest.
 
