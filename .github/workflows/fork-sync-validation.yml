@@ -22,7 +22,7 @@ jobs:
       - name: Run synthetic Python fixtures
         run: |
           set -euo pipefail
-          for directory in commenter-talent-scan/tests leveling-up-content-engine/tests packaging-youtube-thumbnails/tests reimagine-work/judge/tests shortform-format-library/tests shortform-production/tests sidebar-prioritizer/tests; do
+          for directory in commenter-talent-scan/tests leveling-up-content-engine/tests packaging-youtube-thumbnails/tests reimagine-work/judge/tests shortform-format-library/tests shortform-production/tests sidebar-prioritizer/tests relationship-intelligence/tests; do
             python -m unittest discover -s "$directory" -v
           done
       - name: Run synthetic funnel fixtures
